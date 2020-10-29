@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>Tic-Tac-Toe</title>
+<style>
+input[id^='button_'] {
+    width: 20px;
+}
+</style>
+</head>
+<body>
+<div id="board">
+</div>
+<script>
+
+const board = document.getElementById('board');
+
+// Creates a 3x3 grid of buttons corresponding to the tic-tac-toe board.
+for (let i = 0; i < 9; ++i) {
+    if (i % 3 == 0) {
+        board.appendChild(line_break());
+    }
+    let button = create_button();
+    button.id = 'button_' + i;
+    board.appendChild(button);
+}
+board.appendChild(line_break());
+
+function line_break() {
+    // Returns an HTML <br> element.
+    return document.createElement('br');
+}
+
+function create_button() {
+    // Returns an HTML <input type="button"> element.
+    let button = document.createElement('input');
+    button.type = 'button';
+    return button;
+}
+
+// Variable related to tic-tac-toe game state.
+const marks = ['X', 'O'];
+const noMark = ' ';
+let turn, currentMark;
+
+function reset() {
+    // Resets the board to the initial state.
+    turn = 0;
+    currentMark = marks[turn % 2];
+    for (let i = 0; i < 9; ++i) {
+        let button = document.getElementById('button_' + i);
+        button.value = noMark;
+    }
+}
+
+reset();
+
+function update_state() {
+    turn += 1;
+    currentMark = marks[turn % 2];
+}
+
+// Adds a button to reset board.
+let reset_button = create_button();
+reset_button.value = 'Reset!';
+reset_button.addEventListener("click", reset);
+board.appendChild(reset_button);
+
+function check_winner() {
+    // Determines whether somebody has won; returns X, O or noMark.
+    let marks = [];
+    for (let i = 0; i < 9; ++i) {
+        marks.push(document.getElementById('button_' + i).value);
+    }
+   
+    for (let row = 0; row < 3; ++row) {
+        if (
+                marks[row] == marks[row + 1] &&
+                marks[row + 1] == marks[row + 2] &&
+                marks[row] != noMark) {
+            return marks[row];
+        }
+    }
+
+    for (let col = 0; col < 3; ++col) {
+        if (
+                marks[col] == marks[col + 3] &&
+                marks[col + 3] == marks[col + 6] &&
+                marks[col] != noMark) {
+            return marks[col];
+        }
+    }
+
+    if (marks[4] != noMark) {
+        if (
+                (marks[0] == marks[4] && marks[4] == marks[8]) ||
+                (marks[2] == marks[4] && marks[4] == marks[6])) {
+            return marks[4];
+        }
+    }
+
+    return noMark;
+}
+
+// Adds interactivity to the 3x3 grid.
+for (let i = 0; i < 9; ++i) {
+    let button = document.getElementById('button_' + i);
+    button.addEventListener(
+        "click",
+        function() {
+            /* TODO
+             *
+             * Write a function that sets the value of the button to
+             * currentMark.
+             *
+             * If the current button's value is not noMark, the play should not
+             * be permitted. Otherwise, be sure to increment turn, update
+             * currentMark, and check for winners (use update_state and
+             * check_winner helper functions).
+             *
+             */
+        }
+    );
+}
+
+</script>
+</body>
+</html>
