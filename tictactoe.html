@@ -42,10 +42,15 @@ const marks = ['X', 'O'];
 const noMark = ' ';
 let turn, currentMark;
 
+function update_state() {
+    turn += 1;
+    currentMark = marks[turn % 2];
+}
+
 function reset() {
     // Resets the board to the initial state.
-    turn = 0;
-    currentMark = marks[turn % 2];
+    turn = -1
+    update_state();
     for (let i = 0; i < 9; ++i) {
         let button = document.getElementById('button_' + i);
         button.value = noMark;
@@ -54,11 +59,6 @@ function reset() {
 
 reset();
 
-function update_state() {
-    turn += 1;
-    currentMark = marks[turn % 2];
-}
-
 // Adds a button to reset board.
 let reset_button = create_button();
 reset_button.value = 'Reset!';
@@ -66,7 +66,8 @@ reset_button.addEventListener("click", reset);
 board.appendChild(reset_button);
 
 function check_winner() {
-    // Determines whether somebody has won; returns X, O or noMark.
+    // Determines whether somebody has won; returns X, O or noMark (if no
+    // winner yet).
     let marks = [];
     for (let i = 0; i < 9; ++i) {
         marks.push(document.getElementById('button_' + i).value);
